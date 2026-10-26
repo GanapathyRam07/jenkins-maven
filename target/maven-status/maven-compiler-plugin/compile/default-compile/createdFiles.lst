@@ -1,0 +1,10 @@
+com\example\taskapi\task\TaskEntity.class
+com\example\taskapi\task\TaskRequest.class
+com\example\taskapi\task\TaskService.class
+com\example\taskapi\task\TaskController.class
+com\example\taskapi\task\TaskRepository.class
+com\example\taskapi\common\NotFoundException.class
+com\example\taskapi\task\TaskStatus.class
+com\example\taskapi\TaskApiApplication.class
+com\example\taskapi\task\TaskResponse.class
+com\example\taskapi\common\ApiExceptionHandler.class

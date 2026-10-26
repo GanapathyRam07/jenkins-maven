@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: taskdb
+      POSTGRES_USER: taskapp
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the server .env file}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [backend]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taskapp -d taskdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: ${IMAGE:?Set IMAGE to a versioned application image}
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/taskdb
+      DB_USERNAME: taskapp
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the server .env file}
+      SERVER_PORT: 8080
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [backend]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:8080/actuator/health | grep -q UP"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+
+networks:
+  backend:
+volumes:
+  postgres_data:
