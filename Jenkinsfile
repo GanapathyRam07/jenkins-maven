@@ -15,7 +15,7 @@ pipeline {
                 echo 'Using local Java project'
                 dir('D:\\jenkins-java-production-starter') {
                     bat 'java -version'
-                    bat 'mvn -version'
+                    bat '"C:\\Users\\Ganapathy.R\\apache-maven-3.10.0\\bin\\mvn.cmd" -version'
                     bat 'git --version'
                 }
             }
@@ -24,7 +24,7 @@ pipeline {
         stage('Build and Unit Tests') {
             steps {
                 dir('D:\\jenkins-java-production-starter') {
-                    bat 'mvn -B clean verify'
+                    bat '"C:\\Users\\Ganapathy.R\\apache-maven-3.10.0\\bin\\mvn.cmd" -B clean verify'
                 }
             }
             post {
